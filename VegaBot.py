@@ -22,7 +22,7 @@ def click_center(location):
 # Configuration :
 max_fight = 10
 fight = 0
-flet_number = 3
+fleet_number = 3
 short_delay = [0.2, 0.5]
 large_delay = [1, 1.5]
 looping_delay = 2
@@ -30,14 +30,14 @@ looping_delay = 2
 time.sleep(2)
 print('begin')
 
-while not keyboard.is_pressed('q') | flet_number == 0:
-    # check if any flet is idle
+while not keyboard.is_pressed('q') | fleet_number == 0:
+    # check if any fleet is idle
     idle = pyautogui.locateOnScreen('Image/Idle.png', confidence=0.9)
-    # check if any flet need repair
+    # check if any fleet need repair
     need_reparation = pyautogui.locateOnScreen('Image/Need_reparation.png', confidence=0.9)
     if idle is not None:
-        print('idle flet detected')
-        # click on flet
+        print('idle fleet detected')
+        # click on fleet
         click_center(idle)
         time.sleep(np.random.uniform(large_delay[0], large_delay[1]))
         if fight < max_fight:
@@ -61,11 +61,11 @@ while not keyboard.is_pressed('q') | flet_number == 0:
             if recall is not None:
                 click_center(recall)
                 time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
-                flet_number -= 1
-                print(flet_number, '° flet left')
+                fleet_number -= 1
+                print(fleet_number, '° fleet left')
     elif need_reparation is not None:
-        print('detect a flet needing reparation')
-        # click on flet
+        print('detect a fleet needing reparation')
+        # click on fleet
         click_center(need_reparation)
         time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
         # check if the reparation is free
@@ -76,14 +76,14 @@ while not keyboard.is_pressed('q') | flet_number == 0:
             click_center(repair)
             time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
         else:
-            print('no free reparation possible, sending flet home')
+            print('no free reparation possible, sending fleet home')
             # check if recall button found
             recall = pyautogui.locateOnScreen('Image/Recall.png', grayscale=True, confidence=0.8)
             if recall is not None:
                 click_center(recall)
                 time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
-                flet_number -= 1
-                print(flet_number, '° flet left')
+                fleet_number -= 1
+                print(fleet_number, '° fleet left')
     else:
         # print('nothing detect, looping')
         time.sleep(looping_delay)
