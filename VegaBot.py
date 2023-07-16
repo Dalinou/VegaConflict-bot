@@ -1,9 +1,9 @@
-import pyautogui
 import time
 import keyboard
 import numpy as np
-import random
-import win32api, win32con
+import pyautogui
+import win32api
+import win32con
 
 
 def click(x, y):
@@ -20,41 +20,43 @@ def click_center(location):
 
 
 # Configuration :
-max_fight = 10
+max_fight = 500
 fight = 0
 fleet_number = 3
 short_delay = [0.2, 0.5]
-large_delay = [1, 1.5]
-looping_delay = 2
+medium_delay = [0.5, 1]
+long_delay = [1, 1.5]
+looping_delay = 1
 
 time.sleep(2)
 print('begin')
 
-while not keyboard.is_pressed('q') | fleet_number == 0:
+while (not keyboard.is_pressed('q')) or fleet_number == 0:
     # check if any fleet is idle
-    idle = pyautogui.locateOnScreen('Image/Idle.png', confidence=0.9)
+    idle = pyautogui.locateOnScreen('Image/Idle_alpha.png', confidence=0.95)
     # check if any fleet need repair
-    need_reparation = pyautogui.locateOnScreen('Image/Need_reparation.png', confidence=0.9)
+    need_reparation = pyautogui.locateOnScreen('Image/Need_reparation_alpha.png', confidence=0.95)
     if idle is not None:
         print('idle fleet detected')
         # click on fleet
         click_center(idle)
-        time.sleep(np.random.uniform(large_delay[0], large_delay[1]))
+        time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
         if fight < max_fight:
             # check if the Search button exist
             search = pyautogui.locateOnScreen('Image/Search.png', grayscale=True, confidence=0.8)
             if search is not None:
                 # click Search button
                 click_center(search)
-                time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
+                time.sleep(np.random.uniform(medium_delay[0], medium_delay[1]))
                 # check if the Attack button exist
-                attack = pyautogui.locateOnScreen('Image/Attack.png', confidence=0.8)
+                attack = pyautogui.locateOnScreen('Image/Attack.png', confidence=0.95)
                 if attack is not None:
                     # send the attack
                     click_center(attack)
                     fight += 1
                     print(fight, '° attack send')
-                    time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
+                    time.sleep(np.random.uniform(long_delay[0], long_delay[1]))
+
         else:
             # check if recall button found
             recall = pyautogui.locateOnScreen('Image/Recall.png', grayscale=True, confidence=0.8)
@@ -69,7 +71,7 @@ while not keyboard.is_pressed('q') | fleet_number == 0:
         click_center(need_reparation)
         time.sleep(np.random.uniform(short_delay[0], short_delay[1]))
         # check if the reparation is free
-        repair = pyautogui.locateOnScreen('Image/Repair.png', grayscale=True, confidence=0.8)
+        repair = pyautogui.locateOnScreen('Image/Repair.png', grayscale=True, confidence=0.95)
         if repair is not None:
             print('free reparation possible')
             # do the reparation
